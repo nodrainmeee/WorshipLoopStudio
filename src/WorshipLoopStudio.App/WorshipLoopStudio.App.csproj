@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>WorshipLoopStudio</AssemblyName>
+    <RootNamespace>WorshipLoopStudio.App</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorshipLoopStudio.Core\WorshipLoopStudio.Core.csproj" />
+    <ProjectReference Include="..\WorshipLoopStudio.Audio\WorshipLoopStudio.Audio.csproj" />
+    <ProjectReference Include="..\WorshipLoopStudio.Separation\WorshipLoopStudio.Separation.csproj" />
+  </ItemGroup>
+</Project>

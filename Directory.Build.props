@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Company>Worship Loop Studio contributors</Company>
+    <Product>Worship Loop Studio</Product>
+    <Copyright>Copyright (c) Worship Loop Studio contributors</Copyright>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+</Project>

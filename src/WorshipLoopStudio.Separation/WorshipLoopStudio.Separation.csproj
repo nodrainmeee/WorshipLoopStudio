@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>WorshipLoopStudio.Separation</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorshipLoopStudio.Core\WorshipLoopStudio.Core.csproj" />
+  </ItemGroup>
+</Project>

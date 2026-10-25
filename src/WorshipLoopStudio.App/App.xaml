@@ -1,0 +1,19 @@
+<Application x:Class="WorshipLoopStudio.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:infra="clr-namespace:WorshipLoopStudio.App.Infrastructure"
+             ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <infra:InverseBoolConverter x:Key="InverseBool" />
+            <infra:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+            <infra:BoolToVisibilityConverter x:Key="InverseBoolToVisibility" Invert="True" />
+            <infra:NullToVisibilityConverter x:Key="NullToVisibility" />
+            <infra:LevelToWidthConverter x:Key="LevelToWidth" />
+            <infra:ZeroToVisibilityConverter x:Key="ZeroToVisible" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

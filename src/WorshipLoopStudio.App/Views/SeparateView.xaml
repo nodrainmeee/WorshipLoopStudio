@@ -1,0 +1,169 @@
+<UserControl x:Class="WorshipLoopStudio.App.Views.SeparateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="0,8,0,8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="420" />
+            <ColumnDefinition Width="12" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Setup -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="SEPARATION ENGINE (DEMUCS)" Style="{StaticResource SectionTitle}" />
+                        <Border CornerRadius="6" Padding="10" Margin="0,0,0,10">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="{StaticResource SurfaceRaisedBrush}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasError}" Value="True">
+                                            <Setter Property="Background" Value="#3B1219" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsReady}" Value="True">
+                                            <Setter Property="Background" Value="#0F2E1C" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" />
+                        </Border>
+                        <WrapPanel Margin="0,0,0,8">
+                            <Button Command="{Binding CheckCommand}" Content="Check setup" Margin="0,0,6,6" />
+                            <Button Command="{Binding InstallCommand}" Content="Install Demucs" Style="{StaticResource PrimaryButton}" Margin="0,0,6,6" />
+                            <Button Command="{Binding DownloadModelCommand}" Content="Download model" Margin="0,0,6,6" />
+                        </WrapPanel>
+                        <CheckBox IsChecked="{Binding UseGpuInstall}" Foreground="{StaticResource ForegroundBrush}" Margin="0,0,0,8"
+                                  Content="Install with NVIDIA GPU (CUDA) support - much faster, needs an NVIDIA card" />
+                        <TextBlock TextWrapping="Wrap" Foreground="{StaticResource MutedForegroundBrush}" FontSize="12" Margin="0,0,0,8">
+                            Requirements: Python 3.10, 3.11 or 3.12 installed from python.org, about 2-6 GB of free disk space,
+                            8 GB of RAM or more, and an internet connection for the one-time installation and model download.
+                        </TextBlock>
+                        <Button Command="{Binding OpenPythonDownloadCommand}" Content="Get Python for Windows" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" />
+                        <TextBlock Text="Python used for separation" Style="{StaticResource FieldLabel}" Margin="0,10,0,4" />
+                        <TextBlock Text="{Binding PythonDisplay}" TextWrapping="Wrap" Margin="0,0,0,6" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding BrowsePythonCommand}" Content="Use my own python.exe..." Margin="0,0,6,0"
+                                    ToolTip="Advanced: an existing Python environment where demucs is already installed" />
+                            <Button Command="{Binding ClearPythonCommand}" Content="Use built-in environment" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Job -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="SEPARATE A SONG" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="Song" Style="{StaticResource FieldLabel}" />
+                        <DockPanel Margin="0,0,0,10">
+                            <Button DockPanel.Dock="Right" Command="{Binding BrowseInputCommand}" Content="Choose..." Margin="6,0,0,0" />
+                            <Border Background="{StaticResource SurfaceRaisedBrush}" CornerRadius="6" Padding="8,6">
+                                <TextBlock Text="{Binding InputFileName}" TextTrimming="CharacterEllipsis" ToolTip="{Binding InputFile}" />
+                            </Border>
+                        </DockPanel>
+                        <TextBlock Text="Model" Style="{StaticResource FieldLabel}" />
+                        <ComboBox ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedModel}" Margin="0,0,0,4" AutomationProperties.Name="Separation model" />
+                        <TextBlock Text="{Binding ModelNotes}" TextWrapping="Wrap" FontSize="12" Foreground="{StaticResource MutedForegroundBrush}" Margin="0,0,0,10" />
+                        <TextBlock Text="Processing device" Style="{StaticResource FieldLabel}" />
+                        <ComboBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="0,0,0,12" AutomationProperties.Name="Processing device" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding SeparateCommand}" Style="{StaticResource PlayButton}" Margin="0,0,8,0">
+                                <TextBlock Text="SEPARATE" />
+                            </Button>
+                            <Button Command="{Binding CancelCommand}" Content="Cancel" MinHeight="44" />
+                        </StackPanel>
+                        <ProgressBar Value="{Binding Progress}" Maximum="100" Height="8" Margin="0,12,0,4" />
+                        <TextBlock Text="{Binding ProgressText}" Foreground="{StaticResource MutedForegroundBrush}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="200" />
+            </Grid.RowDefinitions>
+
+            <!-- Stems -->
+            <Border Style="{StaticResource Card}">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                            <Button Command="{Binding OpenPreviousCommand}" Content="Open previous result..." Margin="0,0,6,0" />
+                            <Button Command="{Binding OpenOutputFolderCommand}" Content="Show folder" />
+                        </StackPanel>
+                        <TextBlock Text="STEMS" Style="{StaticResource SectionTitle}" VerticalAlignment="Center" Margin="0" />
+                    </DockPanel>
+
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button Command="{Binding PlayCommand}" Style="{StaticResource PlayButton}" Margin="0,0,6,0" AutomationProperties.Name="Play stems">
+                            <TextBlock Style="{StaticResource IconText}" Text="&#xE768;" FontSize="18" />
+                        </Button>
+                        <Button Command="{Binding PauseCommand}" MinHeight="44" Margin="0,0,6,0" AutomationProperties.Name="Pause stems">
+                            <TextBlock Style="{StaticResource IconText}" Text="&#xE769;" FontSize="18" />
+                        </Button>
+                        <Button Command="{Binding StopCommand}" MinHeight="44" Margin="0,0,12,0" AutomationProperties.Name="Stop stems">
+                            <TextBlock Style="{StaticResource IconText}" Text="&#xE71A;" FontSize="18" />
+                        </Button>
+                        <Slider Width="360" Minimum="0" Maximum="{Binding Duration}" Value="{Binding Position}" VerticalAlignment="Center"
+                                AutomationProperties.Name="Playback position" />
+                        <TextBlock Text="{Binding PositionText}" VerticalAlignment="Center" Margin="10,0,18,0" FontFamily="Consolas" />
+                        <Button Command="{Binding ExportAllWavCommand}" Content="Export all (WAV)" Margin="0,0,6,0" />
+                        <Button Command="{Binding ExportAllMp3Command}" Content="Export all (MP3)" />
+                    </StackPanel>
+
+                    <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Foreground="{StaticResource MutedForegroundBrush}" Margin="0,0,0,8"
+                               Text="No stems yet. Separate a song, or open a previous result."
+                               Visibility="{Binding Stems.Count, Converter={StaticResource ZeroToVisible}}" />
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Stems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource SurfaceRaisedBrush}" CornerRadius="8" Padding="10" Margin="0,0,0,6">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="220" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,12,0">
+                                                <ToggleButton Style="{StaticResource MuteToggle}" IsChecked="{Binding Mute}" Margin="0,0,4,0" AutomationProperties.Name="Mute stem" />
+                                                <ToggleButton Style="{StaticResource SoloToggle}" IsChecked="{Binding Solo}" AutomationProperties.Name="Solo stem" />
+                                            </StackPanel>
+                                            <Slider Grid.Column="2" Minimum="0" Maximum="2" Value="{Binding Volume}" VerticalAlignment="Center" AutomationProperties.Name="Stem volume" />
+                                            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Button Command="{Binding ExportWavCommand}" Content="WAV" Margin="0,0,6,0" />
+                                                <Button Command="{Binding ExportMp3Command}" Content="MP3" Margin="0,0,6,0" />
+                                                <Button Command="{Binding EditCommand}" Content="Make a loop from it" ToolTip="Open this stem in the Record clip editor to cut a loop" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- Log -->
+            <Border Grid.Row="2" Style="{StaticResource Card}" Padding="12">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
+                        <Button DockPanel.Dock="Right" Command="{Binding ClearLogCommand}" Content="Clear" Style="{StaticResource GhostButton}" />
+                        <TextBlock Text="LOG" Style="{StaticResource SectionTitle}" VerticalAlignment="Center" Margin="0" />
+                    </DockPanel>
+                    <TextBox Text="{Binding LogText, Mode=OneWay}" IsReadOnly="True" TextWrapping="NoWrap" FontFamily="Consolas" FontSize="12"
+                             VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalContentAlignment="Top"
+                             TextChanged="OnLogChanged" AutomationProperties.Name="Separation log" />
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

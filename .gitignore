@@ -1,0 +1,29 @@
+# Build output
+bin/
+obj/
+publish/
+artifacts/
+TestResults/
+*.zip
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Generated sample library (rebuilt by tools/SampleGen and on first launch)
+Samples/Starter/
+
+# Never commit secrets or signing material
+*.pfx
+*.snk
+*.p12
+secrets.json
+.env

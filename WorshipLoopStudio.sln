@@ -1,0 +1,52 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorshipLoopStudio.Core", "src\WorshipLoopStudio.Core\WorshipLoopStudio.Core.csproj", "{5783D670-050B-5155-903B-8B45B7723E68}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorshipLoopStudio.Audio", "src\WorshipLoopStudio.Audio\WorshipLoopStudio.Audio.csproj", "{C5C709CB-03D8-5444-BA3F-1E0F1C670339}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorshipLoopStudio.Separation", "src\WorshipLoopStudio.Separation\WorshipLoopStudio.Separation.csproj", "{C624152A-F145-545F-9D56-9B1CE56512D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorshipLoopStudio.App", "src\WorshipLoopStudio.App\WorshipLoopStudio.App.csproj", "{77759B25-4F92-598F-A59A-2C412CA68783}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorshipLoopStudio.Tests", "tests\WorshipLoopStudio.Tests\WorshipLoopStudio.Tests.csproj", "{99DA4B3E-905E-539C-BFA7-92ECBC47FE07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleGen", "tools\SampleGen\SampleGen.csproj", "{48DA485C-D2DF-5396-B766-070C5F6A4122}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5783D670-050B-5155-903B-8B45B7723E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5783D670-050B-5155-903B-8B45B7723E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5783D670-050B-5155-903B-8B45B7723E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5783D670-050B-5155-903B-8B45B7723E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5C709CB-03D8-5444-BA3F-1E0F1C670339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C709CB-03D8-5444-BA3F-1E0F1C670339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C709CB-03D8-5444-BA3F-1E0F1C670339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C709CB-03D8-5444-BA3F-1E0F1C670339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C624152A-F145-545F-9D56-9B1CE56512D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C624152A-F145-545F-9D56-9B1CE56512D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C624152A-F145-545F-9D56-9B1CE56512D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C624152A-F145-545F-9D56-9B1CE56512D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77759B25-4F92-598F-A59A-2C412CA68783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77759B25-4F92-598F-A59A-2C412CA68783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77759B25-4F92-598F-A59A-2C412CA68783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77759B25-4F92-598F-A59A-2C412CA68783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99DA4B3E-905E-539C-BFA7-92ECBC47FE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99DA4B3E-905E-539C-BFA7-92ECBC47FE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99DA4B3E-905E-539C-BFA7-92ECBC47FE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99DA4B3E-905E-539C-BFA7-92ECBC47FE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48DA485C-D2DF-5396-B766-070C5F6A4122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48DA485C-D2DF-5396-B766-070C5F6A4122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48DA485C-D2DF-5396-B766-070C5F6A4122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48DA485C-D2DF-5396-B766-070C5F6A4122}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

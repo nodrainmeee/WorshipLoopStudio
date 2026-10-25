@@ -1,0 +1,128 @@
+<Window x:Class="WorshipLoopStudio.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:WorshipLoopStudio.App.Views"
+        Title="{Binding WindowTitle}" Width="1440" Height="900" MinWidth="1100" MinHeight="700"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}" Foreground="{StaticResource ForegroundBrush}"
+        FontFamily="{StaticResource UiFont}" FontSize="13"
+        PreviewKeyDown="OnPreviewKeyDown" Closing="OnClosing">
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveProjectCommand}" />
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenProjectCommand}" />
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewProjectCommand}" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header: project management and export -->
+        <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="16,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Worship Loop Studio" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Border Background="{StaticResource MutedBrush}" CornerRadius="6" Padding="10,4" Margin="14,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Perform.ProjectName}" FontWeight="SemiBold" />
+                    </Border>
+                    <TextBlock Text="unsaved changes" Foreground="{StaticResource WarningBrush}" Margin="10,0,0,0" VerticalAlignment="Center"
+                               Visibility="{Binding Perform.IsDirty, Converter={StaticResource BoolToVisibility}}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Command="{Binding NewProjectCommand}" Margin="0,0,6,0" ToolTip="New project (Ctrl+N)">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource IconText}" Text="&#xE710;" Margin="0,0,6,0" /><TextBlock Text="New" /></StackPanel>
+                    </Button>
+                    <Button Command="{Binding OpenProjectCommand}" Margin="0,0,6,0" ToolTip="Open project (Ctrl+O)">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource IconText}" Text="&#xE8E5;" Margin="0,0,6,0" /><TextBlock Text="Open" /></StackPanel>
+                    </Button>
+                    <Button Command="{Binding SaveProjectCommand}" Margin="0,0,6,0" ToolTip="Save project (Ctrl+S)">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource IconText}" Text="&#xE74E;" Margin="0,0,6,0" /><TextBlock Text="Save" /></StackPanel>
+                    </Button>
+                    <Button Command="{Binding SaveProjectAsCommand}" Content="Save as" Margin="0,0,6,0" />
+                    <Button Command="{Binding RenameProjectCommand}" Content="Rename" Margin="0,0,18,0" />
+                    <TextBlock Text="Export" VerticalAlignment="Center" Foreground="{StaticResource MutedForegroundBrush}" Margin="0,0,6,0" />
+                    <ComboBox ItemsSource="{Binding Perform.ExportLoopOptions}" SelectedItem="{Binding Perform.ExportLoops}" Width="70" Margin="0,0,4,0"
+                              ToolTip="How many times the loop is repeated in the exported file" VerticalAlignment="Center" />
+                    <TextBlock Text="loops" VerticalAlignment="Center" Foreground="{StaticResource MutedForegroundBrush}" Margin="0,0,8,0" />
+                    <Button Command="{Binding ExportMixCommand}" Margin="0,0,6,0" ToolTip="Render the full mix to WAV or MP3">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource IconText}" Text="&#xE896;" Margin="0,0,6,0" /><TextBlock Text="Export mix" /></StackPanel>
+                    </Button>
+                    <Button Command="{Binding ExportTrackCommand}" Content="Export selected loop" ToolTip="Render only the selected track" />
+                    <ProgressBar Width="90" Height="6" Margin="10,0,0,0" Value="{Binding ExportProgress}" Maximum="100" VerticalAlignment="Center"
+                                 Visibility="{Binding IsExporting, Converter={StaticResource BoolToVisibility}}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="10" Height="10" Margin="0,0,8,0">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Fill" Value="{StaticResource DangerBrush}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AudioOk}" Value="True">
+                                        <Setter Property="Fill" Value="{StaticResource AccentBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <TextBlock Text="{Binding AudioStatusText}" VerticalAlignment="Center" MaxWidth="320" TextTrimming="CharacterEllipsis"
+                               ToolTip="{Binding AudioStatusText}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Error banner (errors never interrupt playback; they are shown here) -->
+        <Border Grid.Row="1" Background="#3B1219" BorderBrush="{StaticResource DangerBrush}" BorderThickness="0,0,0,1" Padding="16,8"
+                Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="Dismiss" Command="{Binding DismissErrorCommand}" Style="{StaticResource GhostButton}" />
+                <TextBlock Style="{StaticResource IconText}" Text="&#xE7BA;" Foreground="{StaticResource DangerBrush}" Margin="0,0,10,0" />
+                <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" VerticalAlignment="Center" />
+            </DockPanel>
+        </Border>
+
+        <TabControl Grid.Row="2" SelectedIndex="{Binding SelectedTabIndex}" Background="Transparent" BorderThickness="0" Padding="0" Margin="12,8,12,0">
+            <TabItem Header="Perform" Style="{StaticResource NavTab}">
+                <views:PerformView DataContext="{Binding Perform}" />
+            </TabItem>
+            <TabItem Header="Record" Style="{StaticResource NavTab}">
+                <views:RecordView DataContext="{Binding Record}" />
+            </TabItem>
+            <TabItem Header="Separate" Style="{StaticResource NavTab}">
+                <views:SeparateView DataContext="{Binding Separate}" />
+            </TabItem>
+            <TabItem Header="Settings" Style="{StaticResource NavTab}">
+                <views:SettingsView DataContext="{Binding Settings}" />
+            </TabItem>
+        </TabControl>
+
+        <!-- Status bar -->
+        <Border Grid.Row="3" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="16,6">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Border CornerRadius="4" Padding="8,2" Margin="0,0,8,0" Background="{StaticResource DangerBrush}"
+                            Visibility="{Binding Record.IsRecording, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="REC" Foreground="#000000" FontWeight="Bold" />
+                    </Border>
+                    <Border CornerRadius="4" Padding="8,2" Margin="0,0,8,0" Background="{StaticResource PrimaryStrongBrush}"
+                            Visibility="{Binding Separate.IsBusy, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="SEPARATING" FontWeight="Bold" />
+                    </Border>
+                    <Border CornerRadius="4" Padding="8,2" Background="{StaticResource MutedBrush}">
+                        <TextBlock Text="{Binding Perform.TransportText}" FontWeight="Bold" />
+                    </Border>
+                </StackPanel>
+                <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedForegroundBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>
