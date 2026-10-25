@@ -92,7 +92,7 @@ public static class AudioExporter
         {
             using (var reader = new AudioFileReader(sourcePath))
             {
-                var pcm = new SampleToWaveProvider16(SampleLoader.ToEngineFormat(reader));
+                var pcm = new FloatToPcm16Provider(SampleLoader.ToEngineFormat(reader));
                 MediaFoundationEncoder.EncodeToMp3(pcm, temp, bitRate);
             }
 
@@ -151,6 +151,41 @@ public static class AudioExporter
         {
             cancellationToken.ThrowIfCancellationRequested();
             writer.WriteSamples(buffer, 0, read);
+        }
+    }
+
+    /// <summary>Converts float samples to 16-bit PCM bytes (needed by the Media Foundation MP3 encoder).</summary>
+    private sealed class FloatToPcm16Provider : IWaveProvider
+    {
+        private readonly ISampleProvider _source;
+        private float[] _buffer = Array.Empty<float>();
+
+        public FloatToPcm16Provider(ISampleProvider source)
+        {
+            _source = source;
+            WaveFormat = new WaveFormat(source.WaveFormat.SampleRate, 16, source.WaveFormat.Channels);
+        }
+
+        public WaveFormat WaveFormat { get; }
+
+        public int Read(byte[] buffer, int offset, int count)
+        {
+            var samplesRequested = count / 2;
+            if (_buffer.Length < samplesRequested)
+            {
+                _buffer = new float[samplesRequested];
+            }
+
+            var read = _source.Read(_buffer, 0, samplesRequested);
+            for (var i = 0; i < read; i++)
+            {
+                var clamped = Math.Clamp(_buffer[i], -1f, 1f);
+                var value = (short)(clamped * 32767f);
+                buffer[offset + i * 2] = (byte)(value & 0xFF);
+                buffer[offset + i * 2 + 1] = (byte)((value >> 8) & 0xFF);
+            }
+
+            return read * 2;
         }
     }
 }
