@@ -57,7 +57,7 @@
                         <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource IconText}" Text="&#xE896;" Margin="0,0,6,0" /><TextBlock Text="Export mix" /></StackPanel>
                     </Button>
                     <Button Command="{Binding ExportTrackCommand}" Content="Export selected loop" ToolTip="Render only the selected track" />
-                    <ProgressBar Width="90" Height="6" Margin="10,0,0,0" Value="{Binding ExportProgress}" Maximum="100" VerticalAlignment="Center"
+                    <ProgressBar Width="90" Height="6" Margin="10,0,0,0" Value="{Binding ExportProgress, Mode=OneWay}" Maximum="100" VerticalAlignment="Center"
                                  Visibility="{Binding IsExporting, Converter={StaticResource BoolToVisibility}}" />
                 </StackPanel>
 
